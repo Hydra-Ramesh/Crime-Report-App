@@ -1,6 +1,8 @@
-// @ts-nocheck
 import { useState } from "react";
-import { AddressAutofill } from "@mapbox/search-js-react";
+import { AddressAutofill as MapboxAddressAutofill } from "@mapbox/search-js-react";
+
+// Temporarily type the Mapbox AddressAutofill as `any` if types are missing
+const AddressAutofill = MapboxAddressAutofill as any;
 
 interface LocationInputProps {
   value: string;
@@ -72,9 +74,7 @@ export function LocationInput({
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-zinc-400">
-        Location
-      </label>
+      <label className="block text-sm font-medium text-zinc-400">Location</label>
       <div className="relative">
         <AddressAutofill
           accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || ""}
@@ -86,8 +86,9 @@ export function LocationInput({
             onChange={(e) => onChange(e.target.value)}
             placeholder="Enter location or use pin"
             className="w-full rounded-xl bg-zinc-900/50 border border-zinc-800 pl-4 pr-12 py-3.5
-                     text-white transition-colors duration-200
-                     focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+                       text-white transition-colors duration-200
+                       focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+            aria-label="Search location"
           />
         </AddressAutofill>
         <button
@@ -99,6 +100,7 @@ export function LocationInput({
                    disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={isGettingLocation}
           title="Get current location"
+          aria-label="Get current location"
         >
           {isGettingLocation ? (
             <svg
